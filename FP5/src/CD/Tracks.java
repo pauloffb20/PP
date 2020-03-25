@@ -6,15 +6,20 @@
 package CD;
 
 public class Tracks {
+
     protected int faixanr;
     protected String nomefaixa;
     protected double segundos;
-    protected String autor;
+    protected Autores[] autores;
     
-  protected Tracks(int number, String nome, double secs, String autor){
+  protected Tracks(int number, String nome, double secs, Autores[] autores){
       this.faixanr = number;
       this.nomefaixa = nome;
       this.segundos = secs;
-      this.autor = autor;
+      this.autores = new Autores[autores.length];
+      for(int i = 0; i < autores.length; i++){
+          this.autores[i] = autores[i];
+      }
+      //this.autores = autores;
   }      
 }

@@ -1,33 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package CD;
 
 public class main {
 
     public static void main(String[] args) {
-        int i;
 
-        CD NUMB = new CD("LINKIN PARK", "NUMB", 3.00, "23-03-2020", "Chester");
-        CD INTHEEND = new CD("LINKIN PARK", "IN THE END", 3.00, "22-03-2020", "Chester");
-        CD[] cds = new CD[]{NUMB, INTHEEND};
-        Tracks track1 = new Tracks(1, "nab", 3.00, "nirvana");
-        Tracks track2 = new Tracks(2, "noob", 3.00, "Tokyo Hotel");
-        Tracks[] tracks = new Tracks[]{track1, track2};
+        Autores Paulo = new Autores("Paulo", "PORTUGUESA", "18-04-1998");
+        Autores Bifes = new Autores("Hugo", "PORTUGUESA", "06-06-2001");
+        Autores Filipa = new Autores("Filipa", "PORTUGUESA", "02-09-1999");
+        Autores[] autor = new Autores[]{Paulo, Bifes, Filipa};
+        Tracks track1 = new Tracks(1, "numb", 3.00, autor);
+        Tracks track2 = new Tracks(2, "in the end", 3.00, autor);
+        Tracks track3 = new Tracks(3, "Papercut", 3.00, autor);
+        Tracks track4 = new Tracks(4, "What i've done", 3.00, autor);
+        Tracks[] tracks = new Tracks[]{track1, track2, track3};
+        Tracks[] tracks1 = new Tracks[]{track3, track4};
+        CD NUMB = new CD("LINKIN PARK", "NUMB", 3.00, "23-03-2020", "Chester", tracks);
+        CD INTHEEND = new CD("LINKIN PARK", "IN THE END", 3.00, "22-03-2020", "Chester", tracks1);
+        CD[] Cds = new CD[]{NUMB, INTHEEND};
 
-        System.out.println(NUMB.namecd);
-        System.out.println(NUMB.data);
-        System.out.println(NUMB.banda);
+        for (int i = 0; i < Cds.length; i++) {
+            System.out.println(Cds[i].namecd);
+            System.out.println(Cds[i].banda);
+            System.out.println(Cds[i].data);
+            if (i == 0) {
+                for (int j = 0; j < tracks.length; j++) {
+                    System.out.println(Cds[i].tracks[j].faixanr + "---" + Cds[i].tracks[j].nomefaixa + " " + "autor" +  ":" + Cds[i].tracks[j].autores[j].name);
+                }
 
-        for(i = 0; i < tracks.length; i++){
-            System.out.println(tracks[i].faixanr);
-            System.out.println(tracks[i].nomefaixa);
+            } else if (i == 1) {
+                for (int j = 0; j < tracks1.length; j++) { 
+                    System.out.println(Cds[i].tracks[j].faixanr + "---" + Cds[i].tracks[j].nomefaixa + " " + "autor" + ":" + Cds[i].tracks[j].autores[j].name);
+                }
+            }
+            System.out.println("------------------");
         }
-
     }
-    }
-
-
-
+}

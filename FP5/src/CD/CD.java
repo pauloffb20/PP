@@ -6,30 +6,23 @@
 package CD;
 
 public class CD {
-    protected int size = 15;
-    
+
     protected String banda;
     protected String namecd;
     protected double time;
     protected String data;
     protected String editora;
-    protected String[] membros;
-    public Tracks[] tracks = new Tracks[size];;
-    
+    protected Tracks[] tracks;
 
-    
-protected CD(String banda, String name, double time, String data, String editora, Tracks[] faixas){
-    this.banda = banda;
-    this.namecd = name;
-    this.time = time;
-    this.data = data;
-    this.editora = editora;
-    this.tracks = faixas;
-}
-
-protected CD( String banda, String name, Tracks[] faixas){
-  this.banda = banda;
-  this.namecd = name;
-  this.tracks = faixas;  
-}
+    protected CD(String banda, String name, double time, String data, String editora, Tracks[] faixas) {
+        this.banda = banda;
+        this.namecd = name;
+        this.time = time;
+        this.data = data;
+        this.editora = editora;
+        this.tracks = new Tracks[faixas.length];
+        for (int i = 0; i < faixas.length; i++) {
+            this.tracks[i] = faixas[i];
+        }
+    }
 }
