@@ -40,17 +40,21 @@ public class Container extends Box implements IContainer {
 
     @Override
     public boolean addItem(IItem iitem, IPosition ip, Color color) throws ContainerException {
-        
-        if(nr_itens < max){
-            ItemPacked tmp = new ItemPacked(color, iitem, ip);
-            this.array[nr_itens] = tmp;       
-            occupiedVolume += iitem.getVolume();
-            nr_itens += 1;
-            return true;
+
+        if (state == true) {
+            throw new ContainerException("ERROR to add : Container is closed") {
+            };
+        } else {
+            if (nr_itens < max) {
+                ItemPacked tmp = new ItemPacked(color, iitem, ip);
+                this.array[nr_itens] = tmp;
+                occupiedVolume += iitem.getVolume();
+                nr_itens += 1;
+                return true;
+            }
+            throw new ContainerException("ERROR: Limite do container excedido") {
+            };
         }
-        
-        throw new ContainerException("ERROR : Limite do container excedido") {
-        };
     }
 
     @Override
@@ -93,15 +97,18 @@ public class Container extends Box implements IContainer {
         
         for (int i = 0; i < nr_itens - 1; i++) {
             for (int j = i + 1; j < nr_itens; j++) {
-
+                
+                //se o item seguinte estiver atrás na coordenada x 
                 if (array[i].getPosition().getX() < array[j].getPosition().getX()) {
+                    //Se o volume que ocupou desde a posição inicial for maior que onde começa em x o proximo item dá execção de overllaping
                     if (array[i].getPosition().getX() + array[i].getItem().getVolume() > array[j].getPosition().getX()) {
-                         this.state = false;
+                        this.state = false;
                         throw new PositionException("ERROR : Overlapping items em x") {
                         };
                     }
                 } else {
-                    if (array[i].getPosition().getX() > array[j].getPosition().getX() + array[i].getItem().getVolume()) {
+                    //Se o item estiver á frente verificamos se não está sobrepor o anterior
+                    if (array[i].getPosition().getX() < array[j].getItem().getVolume() + array[j].getPosition().getX()) {
                          this.state = false;
                         throw new PositionException("ERROR : Overlapping items em x") {
                         };
@@ -115,7 +122,7 @@ public class Container extends Box implements IContainer {
                             };
                         }
                     } else {
-                        if (array[i].getPosition().getY() > array[j].getPosition().getY() + array[i].getItem().getVolume()) {
+                        if (array[i].getPosition().getY() < array[j].getItem().getVolume() + array[j].getPosition().getY()) {
                              this.state = false;
                             throw new PositionException("ERROR : Overlapping items em x") {
                             };
@@ -129,7 +136,7 @@ public class Container extends Box implements IContainer {
                             };
                         }
                     } else {
-                        if (array[i].getPosition().getY() > array[j].getPosition().getY() + array[i].getItem().getVolume()) {
+                        if (array[i].getPosition().getZ() < array[j].getItem().getVolume() + array[j].getPosition().getZ()) {
                             this.state = false;
                             throw new PositionException("ERROR : Overlapping items em x") {
                             };

@@ -188,14 +188,14 @@ public class ProjectPP {
         //Teste do método isClosed da class Container
         System.out.println(container.isClosed());
 
-        //testanto os método setX da class position de forma alterar com sucesso a posição e de forma falhar o validate
+        //testanto os método setX da class position de forma alterar com sucesso a posição 
         try {
             position.setX(3);
         } catch (PositionException e) {
             System.out.println(e.getMessage());
         }
 
-        // Testar o método validate com preposito de lançar a excepção de sobreposição de items na coordenada x
+        // Testar o método validate com preposito de lançar a excepção de sobreposição em x caso o item se encontre atrás de outro
         try {
             container.validate();
         } catch (PositionException | ContainerException e) {
@@ -206,19 +206,19 @@ public class ProjectPP {
 
         //Alteração da coordenada X de forma a passar na excepção de sobreposição em x
         try {
-            position.setX(5);
+            position.setX(1);
         } catch (PositionException e) {
             System.out.println(e.getMessage());
         }
 
-        //Alteração com sucesso da variavel y de forma que falhe no método validate
+        //Alteração com sucesso da variavel y 
         try {
             position.setY(4);
         } catch (PositionException e) {
             System.out.println(e.getMessage());
         }
 
-        // Testar o método validate com preposito de lançar a excepção de sobreposição de items na coordenada y
+        // Testar o método validate com preposito de lançar a excepção de sobreposição em y caso o item se encontre atrás de outro
         try {
             container.validate();
         } catch (PositionException | ContainerException e) {
@@ -228,19 +228,19 @@ public class ProjectPP {
         
         //Alteração da coordenada Y de forma a passar na excepção de sobreposição em y
         try {
-            position.setY(6);
+            position.setY(2);
         } catch (PositionException e) {
             System.out.println(e.getMessage());
         }
 
-        //Alteração com sucesso da variavel z de forma que falhe no método validate
+        //Alteração com sucesso da variavel z 
         try {
             position.setZ(5);
         } catch (PositionException e) {
             System.out.println(e.getMessage());
         }
 
-        // Testar o método validate com preposito de lançar a excepção de sobreposição de items na coordenada z
+        // Testar o método validate com preposito de lançar a excepção de sobreposição em z caso o item se encontre atrás de outro
         try {
             container.validate();
         } catch (PositionException | ContainerException e) {
@@ -249,7 +249,7 @@ public class ProjectPP {
         
         //Alteração da coordenada z de forma a passar na excepção de sobreposição em z
         try {
-            position.setZ(8);
+            position.setZ(3);
         } catch (PositionException e) {
             System.out.println(e.getMessage());
         }
@@ -260,5 +260,38 @@ public class ProjectPP {
             System.out.println(e.getMessage());
         }
         
+        //Verificação se depois do container não permite mais adicionar
+        try {
+            System.out.println(container.addItem(item, position, Color.silver));
+        } catch (ContainerException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Alteração da posição x do item para teste em caso do item se encontrar á frente de outro no eixo x
+        try {
+            position.setX(10);
+        } catch (PositionException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        //teste ao método validate com objetivo de falhar e lançar uma execepção de sobreposiçao no eixo x
+         try {
+            container.validate();
+        } catch (PositionException | ContainerException e) {
+            System.out.println(e.getMessage());
+        }
+        //Alteração da coordenada x no position2 de forma passar sem sobreposição
+        try {
+            position2.setX(0);
+        } catch (PositionException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        try {
+            container.validate();
+        } catch (PositionException | ContainerException e) {
+            System.out.println(e.getMessage());
+        } 
+
     }
 }
