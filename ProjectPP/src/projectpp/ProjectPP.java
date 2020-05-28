@@ -24,11 +24,11 @@ public class ProjectPP {
         Address address2 = new Address("Lisboa", "Portugal", 88, "porte", "Rua das flores");
         Customer customer = new Customer("Paulo", address);
         Customer customer2 = new Customer("Bruno", address2);
-        Item item = new Item( "É uma bola de futebol", 3, 3, 3, 3);
-        Item item2 = new Item( "É uma boneco", 2, 7, 8, 9);
+        Item item = new Item( "É uma bola de futebol", 0, 0, 0, 3);
+        Item item2 = new Item( "É um boneco", 2, 7, 8, 9);
         Item item3 = new Item( "É um armário", 2, 7, 8, 30);
         Position position = new Position(1, 2, 3);
-        Position position2 = new Position(3, 1, 2);
+        Position position2 = new Position(5, 6, 7);
         Position position3 = new Position(8, 7, 4);
         ItemPacked item_packed = new ItemPacked(Color.black, item, position);
         Container container = new Container(5, 5, 5, 20);
@@ -77,24 +77,7 @@ public class ProjectPP {
         } catch (PositionException e) {
             System.out.println(e.getMessage());
         }
-        
-        //testanto os método sets da class position de forma alterar com sucesso a posição
-        try {
-            position.setX(3);
-        } catch (PositionException e) {
-            System.out.println(e.getMessage());
-        }
-        try {
-            position.setY(3);
-        } catch (PositionException e) {
-            System.out.println(e.getMessage());
-        }
-        try {
-            position.setZ(3);
-        } catch (PositionException e) {
-            System.out.println(e.getMessage());
-        }
-        
+
         //testando o método getPosition da classe itemPacked
         System.out.println(item_packed.getPosition());
 
@@ -117,10 +100,18 @@ public class ProjectPP {
         
         //Teste do volume ocupado por os items adicionados
         System.out.println("Volume : " + container.getOccupiedVolume()); 
-
+    
+        
         try {
             System.out.println(container.addItem(item3, position3, Color.silver));
         } catch (ContainerException e) {
+            System.out.println(e.getMessage());
+        } 
+        
+        // Testar o método validate com preposito de lançar a excepção de volume excedido
+        try {
+            container.validate();
+        } catch (PositionException | ContainerException e) {
             System.out.println(e.getMessage());
         }
 
@@ -129,14 +120,10 @@ public class ProjectPP {
             System.out.println(container.addItem(item, position, Color.silver));
         } catch (ContainerException e) {
             System.out.println(e.getMessage());
-        }
+        } 
                 
         System.out.println(container.getNumberOfItems());
         
-        //Teste ao método getItem da class container
-        System.out.println(container.getItem("Item:1"));
-        System.out.println(container.getItem("Item:2"));
-     
         //Teste ao método removeItem da class Container com prespectiva que encontre e remova o item
         try {
             container.removeItem(item3);
@@ -145,6 +132,10 @@ public class ProjectPP {
         }
         
         System.out.println(container.getNumberOfItems());
+        
+        //Teste ao método getItem com sucesso da class container
+        System.out.println(container.getItem("Item:1"));
+        System.out.println(container.getItem("Item:2"));
         
         //Teste ao método getItem para quando o item pedido não existe no container
         System.out.println(container.getItem("Item:3"));
@@ -184,6 +175,90 @@ public class ProjectPP {
         System.out.println(order.getId());
         System.out.println(order.getStatus());
         System.out.println(order.getCustomer());
-        System.out.println("Destination:" + order.getDestination());  
+        System.out.println("Destination:" + order.getDestination());
+
+        
+        //Teste do método validate de forma passar sem sobreposições
+        try {
+            container.validate();
+        } catch (PositionException | ContainerException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Teste do método isClosed da class Container
+        System.out.println(container.isClosed());
+
+        //testanto os método setX da class position de forma alterar com sucesso a posição e de forma falhar o validate
+        try {
+            position.setX(3);
+        } catch (PositionException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Testar o método validate com preposito de lançar a excepção de sobreposição de items na coordenada x
+        try {
+            container.validate();
+        } catch (PositionException | ContainerException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println(container.isClosed());
+
+        //Alteração da coordenada X de forma a passar na excepção de sobreposição em x
+        try {
+            position.setX(5);
+        } catch (PositionException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Alteração com sucesso da variavel y de forma que falhe no método validate
+        try {
+            position.setY(4);
+        } catch (PositionException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Testar o método validate com preposito de lançar a excepção de sobreposição de items na coordenada y
+        try {
+            container.validate();
+        } catch (PositionException | ContainerException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
+        //Alteração da coordenada Y de forma a passar na excepção de sobreposição em y
+        try {
+            position.setY(6);
+        } catch (PositionException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Alteração com sucesso da variavel z de forma que falhe no método validate
+        try {
+            position.setZ(5);
+        } catch (PositionException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Testar o método validate com preposito de lançar a excepção de sobreposição de items na coordenada z
+        try {
+            container.validate();
+        } catch (PositionException | ContainerException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        //Alteração da coordenada z de forma a passar na excepção de sobreposição em z
+        try {
+            position.setZ(8);
+        } catch (PositionException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        try {
+            container.validate();
+        } catch (PositionException | ContainerException e) {
+            System.out.println(e.getMessage());
+        }
+        
     }
 }

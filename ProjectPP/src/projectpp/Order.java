@@ -5,6 +5,7 @@
  */
 package projectpp;
 
+import java.io.IOException;
 import order.base.ICustomer;
 import order.base.IPerson;
 import order.base.OrderStatus;
@@ -12,6 +13,7 @@ import order.exceptions.ContainerException;
 import order.exceptions.OrderException;
 import order.exceptions.PositionException;
 import order.packing.IContainer;
+import shippingorder.IExporter;
 import shippingorder.IShippingOrder;
 
 /**
@@ -19,7 +21,7 @@ import shippingorder.IShippingOrder;
  * @author Paulo
  */
 
-public class Order implements IShippingOrder{
+public class Order implements IShippingOrder, IExporter{
     
     private static int id = 1;
     private int orderid;
@@ -102,6 +104,10 @@ public class Order implements IShippingOrder{
     @Override
     public String summary() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }       
+
+    @Override
+    public void export(IShippingOrder iso) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

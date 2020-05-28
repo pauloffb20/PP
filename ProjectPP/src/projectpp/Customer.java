@@ -39,7 +39,7 @@ public class Customer extends Person implements ICustomer {
 
     @Override
    public String toString(){
-       String text = super.getName() + " " + customer_id + " " + super.getAddress() + " " + billing_address;
+       String text = super.getName() + " " + super.getAddress() + " " + billing_address;
        return text;
    }   
 }

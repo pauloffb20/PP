@@ -26,7 +26,8 @@ public class Container extends Box implements IContainer {
     private int nr_itens;
     private String reference = "Container:";
     private static int id = 1;
-
+    private boolean state = false;
+    
     public Container(int depth, int height, int lenght, int volume) {
         super(depth, height, lenght, volume);
         this.array = new ItemPacked[max];
@@ -65,7 +66,8 @@ public class Container extends Box implements IContainer {
                 for (int j = pos; j < nr_itens - 1; j++) {
                     this.array[j] = this.array[j + 1];
                 }
-
+                
+                this.occupiedVolume = this.occupiedVolume - iitem.getVolume();
                 this.nr_itens--;
 
                 //retornamos true após o item ser removido com sucesso
@@ -86,13 +88,63 @@ public class Container extends Box implements IContainer {
         if(occupiedVolume > maxVolume){
             throw new ContainerException("ERROR : Volume do container excedido"){};
         } else {
-            System.out.println("Container is validate");
+            System.out.println("Todos os itens encontram se dentro do container");
+        } 
+        
+        for (int i = 0; i < nr_itens - 1; i++) {
+            for (int j = i + 1; j < nr_itens; j++) {
+
+                if (array[i].getPosition().getX() < array[j].getPosition().getX()) {
+                    if (array[i].getPosition().getX() + array[i].getItem().getVolume() > array[j].getPosition().getX()) {
+                         this.state = false;
+                        throw new PositionException("ERROR : Overlapping items em x") {
+                        };
+                    }
+                } else {
+                    if (array[i].getPosition().getX() > array[j].getPosition().getX() + array[i].getItem().getVolume()) {
+                         this.state = false;
+                        throw new PositionException("ERROR : Overlapping items em x") {
+                        };
+                    }
+                }
+                
+                    if (array[i].getPosition().getY() < array[j].getPosition().getY()) {
+                        if (array[i].getPosition().getY() + array[i].getItem().getVolume() > array[j].getPosition().getY()) {
+                             this.state = false;
+                            throw new PositionException("ERROR : Overlapping items em y") {
+                            };
+                        }
+                    } else {
+                        if (array[i].getPosition().getY() > array[j].getPosition().getY() + array[i].getItem().getVolume()) {
+                             this.state = false;
+                            throw new PositionException("ERROR : Overlapping items em x") {
+                            };
+                        }
+                    }
+
+                    if (array[i].getPosition().getZ() < array[j].getPosition().getZ()) {
+                        if (array[i].getPosition().getZ() + array[i].getItem().getVolume() > array[j].getPosition().getZ()) {
+                             this.state = false;
+                            throw new PositionException("ERROR : Overlapping items em z") {
+                            };
+                        }
+                    } else {
+                        if (array[i].getPosition().getY() > array[j].getPosition().getY() + array[i].getItem().getVolume()) {
+                            this.state = false;
+                            throw new PositionException("ERROR : Overlapping items em x") {
+                            };
+                        }
+                    }
+                }
+            }
+            System.out.println("Without overlapping");
+            this.state = true;
         }
-    }
+
 
     @Override
-    public void close() throws ContainerException, PositionException {
-     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void close() throws ContainerException, PositionException {   
+     validate();
     }
 
     @Override
@@ -147,6 +199,6 @@ public class Container extends Box implements IContainer {
 
     @Override
     public boolean isClosed() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return state;
     }
 }
