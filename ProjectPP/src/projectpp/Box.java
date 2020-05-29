@@ -11,18 +11,18 @@ import order.packing.IBox;
  *
  * @author Paulo
  */
-public abstract class Box implements IBox {
+public class Box implements IBox {
     
     private int depth;
     private int height;
     private int lenght;
     private int volume;
     
-    public Box (int depth, int height, int lenght, int volume){
+    public Box (int depth, int height, int lenght){
         this.depth = depth;
         this.height = height;
         this.lenght = lenght;
-        this.volume = volume;   
+        this.volume = depth*height*lenght;   
     }
 
     @Override
