@@ -15,12 +15,15 @@ import order.packing.IPosition;
 
 /**
  *
- * @author Paulo
+ * @author Paulo Filipe Ferreira Brito
+ * Nr: 8160279
+ * Turma 3
+ * @author Hugo Maia Alves
  */
 public class Container extends Box implements IContainer {
 
     private ItemPacked[] array;
-    private final int max = 3;
+    private final int max = 20;
     private int maxVolume;
     private int occupiedVolume;
     private int nr_itens;
@@ -28,6 +31,12 @@ public class Container extends Box implements IContainer {
     private static int id = 1;
     private boolean state = false;
     
+    /**
+     *
+     * @param depth do tipo inteiro
+     * @param height do tipo inteiro
+     * @param lenght do tipo inteiro
+     */
     public Container(int depth, int height, int lenght) {
         super(depth, height, lenght);
         this.array = new ItemPacked[max];
@@ -38,70 +47,126 @@ public class Container extends Box implements IContainer {
         id++;
     }
 
+    /**
+     *
+     * @param iitem do tipo IItem
+     * @param ip do tipo IPosition
+     * @param color do tipo Color
+     * @return true em caso de adicionado com sucesso e false se o item já existir no container
+     * @throws ContainerException devolve uma excepção caso o container esteja fechado não permitindo adicionar mais items ou
+     * devolve uma excepção caso sejam enviados parametros nulls
+     * Método para adicionar um item ao container
+     */
     @Override
     public boolean addItem(IItem iitem, IPosition ip, Color color) throws ContainerException {
 
         if (state == true) {
-            throw new ContainerException("ERROR to add : Container is closed") {
+            throw new ContainerException("ERROR: You can't add more items because container is closed") {
+            };
+        } else if (iitem == null || ip == null || color == null) {
+            throw new ContainerException("ERROR: You can't add null parameter") {
             };
         } else {
+            for (int i = 0; i < nr_itens; i++) {
+                if (this.array[i].getItem().equals(iitem)) {
+                    return false;
+                }
+            }
+            
             if (nr_itens < max) {
                 ItemPacked tmp = new ItemPacked(color, iitem, ip);
                 this.array[nr_itens] = tmp;
                 occupiedVolume += iitem.getVolume();
                 nr_itens += 1;
                 return true;
-            }
-            throw new ContainerException("ERROR: You can't add more itens! You just can add" + " " + max + "itens") {
-            };
-        }
-    }
-
-    @Override
-    public boolean removeItem(IItem iitem) throws ContainerException {
-        int pos;
-
-        for (int i = 0; i < nr_itens; i++) { // percorremos array
-            if (array[i].getItem() == iitem) { //// verificamos se encontrarmos algum item igual ao pedido de remoçao
-                pos = i;
-                this.array[pos] = null; //se encontrarmos o item apagamos ele do array
-
-                //tirar espaços vazios no array, puxando da direita para esquerda os itens apartir da posição onde removemos o item
-                for (int j = pos; j < nr_itens - 1; j++) {
-                    this.array[j] = this.array[j + 1];
-                }
-                
-                this.occupiedVolume = this.occupiedVolume - iitem.getVolume();
-                this.nr_itens--;
-
-                //retornamos true após o item ser removido com sucesso
+            } else {
+                this.array = new ItemPacked[nr_itens + 10];
+                ItemPacked tmp = new ItemPacked(color, iitem, ip);
+                this.array[nr_itens] = tmp;
+                occupiedVolume += iitem.getVolume();
+                nr_itens += 1;
                 return true;
             }
         }
-        throw new ContainerException("ERROR : Item inexistente") {
-        };
+    }
+
+
+    /**
+     *
+     * @param iitem do tipo IItem
+     * @return true se for removido com sucesso ou false se o item não existir no container
+     * @throws ContainerException devolve excepção se o container estiver fechado ou se for enviados nulls
+     * Método para remover um item do container
+     */
+    @Override
+    public boolean removeItem(IItem iitem) throws ContainerException {
+        int pos;
+        
+        if (state == true) {
+            throw new ContainerException("ERROR: You can't remove more items because container is closed") {
+            };
+        } else if (iitem == null) {
+            throw new ContainerException("ERROR: You can't remove null parameter") {
+            };
+        } else {
+            for (int i = 0; i < nr_itens; i++) { // percorremos array
+                if (array[i].getItem() == iitem) { //// verificamos se encontrarmos algum item igual ao pedido de remoçao
+                    pos = i;
+                    this.array[pos] = null; //se encontrarmos o item apagamos ele do array
+
+                    //tirar espaços vazios no array, puxando da direita para esquerda os itens apartir da posição onde removemos o item
+                    for (int j = pos; j < nr_itens - 1; j++) {
+                        this.array[j] = this.array[j + 1];
+                    }
+
+                    this.occupiedVolume = this.occupiedVolume - iitem.getVolume();
+                    this.nr_itens--;
+
+                    //retornamos true após o item ser removido com sucesso
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     /**
      *
-     * @throws ContainerException
-     * @throws PositionException
+     * @throws ContainerException devolve excepção caso o volume do container
+     * seja excedido ou se algum item sair fora do container em alguma das arestas(overflowing)
+     * @throws PositionException devolve excepção caso haja items em overlapping 
+     * Método para validar se os items estao dentro do container e se não existe
+     * overlapping ou overflowing
      */
     @Override
     public void validate() throws ContainerException, PositionException {
+        
+        //se o volume ocupado pelos items for maior que o volume do container lançamos uma excepção
         if (occupiedVolume > maxVolume) {
             throw new ContainerException("ERROR : Volume do container excedido") {
             };
+           // se o item estiver fora do container em alguma das arestas lança excepção 
         } else {
-            System.out.println("Todos os itens encontram se dentro do container");
+            for (int i = 0; i < nr_itens; i++) {
+                if (this.array[i].getItem().getDepth() > this.getDepth()
+                        || this.array[i].getItem().getHeight() > this.getHeight()
+                        || this.array[i].getItem().getLenght() > this.getLenght()) {
+                    throw new PositionException("ERROR : Overflowing") {
+                    };
+                }
+            }
         }
-
+            
+        //percorremos o array
         for (int i = 0; i < nr_itens - 1; i++) {
             for (int j = i + 1; j < nr_itens; j++) {
-
-                if (array[i].getPosition().getX() < array[j].getPosition().getX() + array[j].getItem().getDepth()
+                //Se houver overlapping lançamos excepção
+                if (array[i].getPosition().getX() < array[j].getPosition().getX() + array[j].getItem().getDepth() 
+                        && array[j].getPosition().getX() < array[i].getPosition().getX() + array[i].getItem().getDepth()
                         && array[i].getPosition().getY() < array[j].getPosition().getY() + array[j].getItem().getHeight()
-                        && array[i].getPosition().getZ() < array[j].getPosition().getZ() + array[j].getItem().getLenght()) {
+                        && array[j].getPosition().getY() < array[i].getPosition().getY() + array[i].getItem().getHeight()
+                        && array[i].getPosition().getZ() < array[j].getPosition().getZ() + array[j].getItem().getLenght()
+                        && array[j].getPosition().getZ() < array[i].getPosition().getZ() + array[i].getItem().getLenght()) {
                     this.state = false;
                     throw new PositionException("ERROR : Overlapping") {
                     };
@@ -109,16 +174,29 @@ public class Container extends Box implements IContainer {
             }
         }
 
-        System.out.println("Without overlapping");
+        System.out.println("Container validated");
         this.state = true;
     }
 
-
+    /**
+     *
+     * @throws ContainerException devolve excepção caso o volume do container
+     * seja excedido
+     * @throws PositionException devolve excepção caso o haja overlapping 
+     * Método para validar se os items estao dentro do container e se não existe
+     * overlapping fechando assim o container
+     */
     @Override
-    public void close() throws ContainerException, PositionException {   
-     validate();
+    public void close() throws ContainerException, PositionException {
+        validate();
     }
 
+    /**
+     *
+     * @param string  do tipo String
+     * @return item do tipo IItem
+     * Método para procurar no container um item
+     */
     @Override
     public IItem getItem(String string) {
         int pos;
@@ -137,13 +215,23 @@ public class Container extends Box implements IContainer {
         return item;
     }
 
+    /**
+     *
+     * @return occupiedVolume do tipo int
+     * Método para retornar o volume ocupado pelos items dentro do container
+     */
     @Override
     public int getOccupiedVolume() {
         return this.occupiedVolume;
     }
 
+    /**
+     *
+     * @return itemPacked do tipo IItemPacked[]
+     * Método que retorna os items que estão dentro do container
+     */
     @Override
-    public IItemPacked[] getPackedItems() { //NAO SEI SE ESTÁ CORRETO, NECESSARIO VERIFICAR
+    public IItemPacked[] getPackedItems() { 
         
         IItemPacked[] itemPacked = new IItemPacked[nr_itens];
         
@@ -153,22 +241,42 @@ public class Container extends Box implements IContainer {
         return itemPacked;
     }
 
+    /**
+     *
+     * @return reference do tipo String
+     * Método que retorna a referencia do container
+     */
     @Override
     public String getReference() {
         return reference;
     }
 
+    /**
+     *
+     * @return nr_itens do tipo int
+     * Método que retorna o número de items dentro do container
+     */
     @Override
     public int getNumberOfItems() {
         return nr_itens;
     }
 
+    /**
+     *
+     * @return remainingVolume do tipo inteiro
+     * Método que retorno o volume do container que ainda está disponivel
+     */
     @Override
     public int getRemainingVolume() {
         int remainingVolume = maxVolume - occupiedVolume;
         return remainingVolume;
     }
 
+    /**
+     *
+     * @return state do tipo boolean
+     * Método que torna um booleano para sabermos se o container está aberto ou fechado
+     */
     @Override
     public boolean isClosed() {
        return state;
