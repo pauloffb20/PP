@@ -14,7 +14,7 @@ import order.packing.IBox;
  * Turma 3
  * @author Hugo Maia Alves
  */
-public class Box implements IBox {
+public abstract class Box implements IBox {
     
     private int depth;
     private int height;

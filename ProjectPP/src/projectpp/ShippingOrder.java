@@ -171,7 +171,7 @@ public class ShippingOrder implements IShippingOrder{
 
     @Override
     public IContainer[] getContainers() {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      return containers;
     }
 
     @Override
@@ -187,6 +187,10 @@ public class ShippingOrder implements IShippingOrder{
 
     @Override
     public String summary() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String text = "Order Id: " + getId() + "\n";
+        for(int i = 0; i < nr_containers; i++){
+            text = text + this.containers[i].toString();
+        }
+        return text;
     }       
 }

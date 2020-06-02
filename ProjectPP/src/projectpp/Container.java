@@ -110,11 +110,11 @@ public class Container extends Box implements IContainer {
             };
         } else {
             for (int i = 0; i < nr_itens; i++) { // percorremos array
-                if (array[i].getItem() == iitem) { //// verificamos se encontrarmos algum item igual ao pedido de remoçao
+                if (array[i].getItem() == iitem) { // verificamos se existe algum item igual ao pedido de remoçao
                     pos = i;
-                    this.array[pos] = null; //se encontrarmos o item apagamos ele do array
+                    this.array[pos] = null; //se encontrarmos o item apagamos do array
 
-                    //tirar espaços vazios no array, puxando da direita para esquerda os itens apartir da posição onde removemos o item
+                    //puxamos da direita para esquerda os itens apartir da posição onde removemos o item
                     for (int j = pos; j < nr_itens - 1; j++) {
                         this.array[j] = this.array[j + 1];
                     }
@@ -280,5 +280,19 @@ public class Container extends Box implements IContainer {
     @Override
     public boolean isClosed() {
        return state;
+    }
+    
+    
+    /**
+     * @return text do tipo String
+     * Método para imprimir a info do container
+     */
+    @Override
+    public String toString(){
+        String text = reference + " Nr de itens: " + nr_itens + "\n";
+        for (int i = 0; i < nr_itens; i++) {
+            text = text + this.array[i].toString() + "\n";
+        }
+        return text;
     }
 }
