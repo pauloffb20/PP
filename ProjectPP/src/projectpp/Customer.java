@@ -10,8 +10,6 @@ import order.base.ICustomer;
  * Nr: 8160279
  * Turma 3
  * @author Hugo Maia Alves
- * Nr: 8160521
- * Turma: 2
  */
 public class Customer extends Person implements ICustomer {
     

@@ -21,8 +21,6 @@ import order.packing.Color;
  * Nr: 8160279
  * Turma 3
  * @author Hugo Maia Alves
- * Nr: 8160521
- * Turma: 2
  */
 public class ProjectPP {
 
@@ -90,22 +88,15 @@ public class ProjectPP {
         
         System.out.println("\n");
 
-        //Teste ao método addItem da classe Container em vista o sucesso de adição
+        //Teste ao método add da classe Container em vista o sucesso de adição
         try {
-            System.out.println("Success add? " + container.addItem(item, position, Color.silver));
+            System.out.println(container.addItem(item, position, Color.silver));
         } catch (ContainerException e) {
             System.out.println(e.getMessage());
         }
 
         try {
-            System.out.println("Success add? " + container.addItem(item2, position2, Color.silver));
-        } catch (ContainerException e) {
-            System.out.println(e.getMessage());
-        }
-        
-        //Teste ao método addItem da classe Container em vista lançar uma excepção de ter enviado um null
-        try {
-            System.out.println(container.addItem(item2, null, Color.silver));
+            System.out.println(container.addItem(item2, position2, Color.silver));
         } catch (ContainerException e) {
             System.out.println(e.getMessage());
         }
@@ -120,13 +111,7 @@ public class ProjectPP {
         
 
         try {
-            System.out.println("Success add? " + container.addItem(item3, position3, Color.silver));
-        } catch (ContainerException e) {
-            System.out.println(e.getMessage());
-        } 
-        
-        try {
-            System.out.println("Success add? " + container2.addItem(item4, position2, Color.silver));
+            System.out.println(container.addItem(item3, position3, Color.silver));
         } catch (ContainerException e) {
             System.out.println(e.getMessage());
         } 
@@ -145,20 +130,12 @@ public class ProjectPP {
        
         //Teste ao método removeItem da class Container com prespectiva que encontre e remova o item
         try {
-            System.out.println("Success remove? " + container.removeItem(item3));
+            System.out.println(container.removeItem(item3));
         } catch (ContainerException e) {
             System.out.println(e.getMessage());
         }
-
-        //Teste ao método removeItem da class Container com prespectiva que lance excepção devido a receber um null
-        try {
-            System.out.println(container.removeItem(null));
-        } catch (ContainerException e) {
-            System.out.println(e.getMessage());
-        }
-
-
-        System.out.println("Number of items:" + container.getNumberOfItems() + "\n");
+        
+        System.out.println(container.getNumberOfItems() + "\n");
         
         
         //Teste ao método getItem com sucesso da class container
@@ -170,7 +147,7 @@ public class ProjectPP {
         
         //Teste ao método removeItem com objetivo de lançar excepção de que o item não existe no container
         try {
-            System.out.println("Success remove? " + container.removeItem(item4));
+            System.out.println(container.removeItem(item4));
         } catch (ContainerException e) {
             System.out.println(e.getMessage());
         }
@@ -188,7 +165,7 @@ public class ProjectPP {
         }
         
         //Teste do método isClosed da class Container(false)
-        System.out.println("Container closed? " + container.isClosed());
+        System.out.println(container.isClosed());
         
         //Teste ao método setX da class Position de forma alterar com sucesso x
         try {
@@ -205,7 +182,7 @@ public class ProjectPP {
         }
         
         //Teste do método isClosed da class Container(true)
-        System.out.println("Container closed? " +  container.isClosed());
+        System.out.println(container.isClosed());
         System.out.println("\n");
 
         ShippingOrder order = new ShippingOrder(customer, customer);
@@ -252,16 +229,15 @@ public class ProjectPP {
 
         //Adição com sucesso de um container 
         try{
-            System.out.println("Success add of container? " + order.addContainer(container));
+            System.out.println(order.addContainer(container));
         } catch(ContainerException | OrderException e){
             System.out.println(e.getMessage());
         }
         
-        
         //Teste ao método existsContainer da class ShippingOrder com proposito de retornar false por não existir
         System.out.println("Container exists? " + order.existsContainer(container2));
         //Teste ao método findContainer da class ShippinOrder com proposito de retornar -1 significando que o container não se encontra em nenhuma posição 
-        System.out.println("Container position in coleccion? " + order.findContainer("Container:2"));
+        System.out.println(order.findContainer("Container:2"));
         
         System.out.println("\n");
         
@@ -278,8 +254,6 @@ public class ProjectPP {
         } catch (OrderException | ContainerException | PositionException o) {
             System.out.println(o.getMessage());
         }
-        
-        System.out.println("Status:" + order2.getStatus());
 
         //Teste ao método addContainer da class ShippingOrder com o proposito de devolver uma exceção de que o container a ser adicionado está aberto
         try{
@@ -297,19 +271,18 @@ public class ProjectPP {
         
         //Teste ao método addContainer com proposito de adicionar com sucesso o container
         try {
-            System.out.println("Success add of container? " + order.addContainer(container2));
+            System.out.println(order.addContainer(container2));
         } catch (ContainerException | OrderException e) {
             System.out.println(e.getMessage());
         }        
         
         //Teste ao método addContainer com preposito de retornar false derivado a já existir o container na order
         try {
-            System.out.println("Success add of container? " + order.addContainer(container2));
+            System.out.println(order.addContainer(container2));
         } catch (ContainerException | OrderException e) {
             System.out.println(e.getMessage());
         }
         
-        System.out.println("\n");
         
         //Teste ao método getContainers da class ShippingOrder de forma mostrar os Containers presentes na order (CORRIGIR)
         System.out.println(Arrays.toString(order.getContainers()));

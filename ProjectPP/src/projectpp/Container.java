@@ -19,10 +19,7 @@ import order.packing.IPosition;
  * Nr: 8160279
  * Turma 3
  * @author Hugo Maia Alves
- * Nr: 8160521
- * Turma: 2
  */
-
 public class Container extends Box implements IContainer {
 
     private ItemPacked[] array;
@@ -56,8 +53,8 @@ public class Container extends Box implements IContainer {
      * @param ip do tipo IPosition
      * @param color do tipo Color
      * @return true em caso de adicionado com sucesso e false se o item já existir no container
-     * @throws ContainerException excepção caso o container esteja fechado não permitindo adicionar mais items ou
-     * excepção caso sejam enviados parametros nulls
+     * @throws ContainerException devolve uma excepção caso o container esteja fechado não permitindo adicionar mais items ou
+     * devolve uma excepção caso sejam enviados parametros nulls
      * Método para adicionar um item ao container
      */
     @Override
@@ -98,7 +95,7 @@ public class Container extends Box implements IContainer {
      *
      * @param iitem do tipo IItem
      * @return true se for removido com sucesso ou false se o item não existir no container
-     * @throws ContainerException excepção se o container estiver fechado ou excepção se forem enviados nulls
+     * @throws ContainerException devolve excepção se o container estiver fechado ou se for enviados nulls
      * Método para remover um item do container
      */
     @Override
@@ -135,9 +132,10 @@ public class Container extends Box implements IContainer {
 
     /**
      *
-     * @throws ContainerException excepção caso o volume do container seja excedido
-     * @throws PositionException excepção caso haja items em overlapping ou excepção caso haja items em overflowing
-     * Método para validar se os items não excedem o volume do container e se não existe items em
+     * @throws ContainerException devolve excepção caso o volume do container
+     * seja excedido ou se algum item sair fora do container em alguma das arestas(overflowing)
+     * @throws PositionException devolve excepção caso haja items em overlapping 
+     * Método para validar se os items estao dentro do container e se não existe
      * overlapping ou overflowing
      */
     @Override
@@ -182,10 +180,11 @@ public class Container extends Box implements IContainer {
 
     /**
      *
-     * @throws ContainerException excepção caso o volume do container seja excedido
-     * @throws PositionException excepção caso haja items em overlapping ou excepção caso haja items em overflowing 
-     * Método para validar se o volume dos items que estão dentro do container nao excedem o volume do container
-     * e se não existe overlapping ou overflowing de items para assim fechar o container.
+     * @throws ContainerException devolve excepção caso o volume do container
+     * seja excedido
+     * @throws PositionException devolve excepção caso o haja overlapping 
+     * Método para validar se os items estao dentro do container e se não existe
+     * overlapping fechando assim o container
      */
     @Override
     public void close() throws ContainerException, PositionException {
@@ -194,9 +193,9 @@ public class Container extends Box implements IContainer {
 
     /**
      *
-     * @param string do tipo String
+     * @param string  do tipo String
      * @return item do tipo IItem
-     * Método para procurar e obter a info de um item do container caso ele exista 
+     * Método para procurar no container um item
      */
     @Override
     public IItem getItem(String string) {
@@ -218,7 +217,7 @@ public class Container extends Box implements IContainer {
 
     /**
      *
-     * @return occupiedVolume do tipo inteiro
+     * @return occupiedVolume do tipo int
      * Método para retornar o volume ocupado pelos items dentro do container
      */
     @Override
@@ -254,7 +253,7 @@ public class Container extends Box implements IContainer {
 
     /**
      *
-     * @return nr_itens do tipo inteiro
+     * @return nr_itens do tipo int
      * Método que retorna o número de items dentro do container
      */
     @Override
@@ -290,7 +289,7 @@ public class Container extends Box implements IContainer {
      */
     @Override
     public String toString(){
-        String text = reference + "\nNr de itens: " + nr_itens + "\n";
+        String text = reference + " Nr de itens: " + nr_itens + "\n";
         for (int i = 0; i < nr_itens; i++) {
             text = text + this.array[i].toString() + "\n";
         }

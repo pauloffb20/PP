@@ -13,10 +13,7 @@ import order.packing.IItem;
  * Nr: 8160279
  * Turma 3
  * @author Hugo Maia Alves
- * Nr: 8160521
- * Turma: 2
  */
-
 public class Item extends Box implements IItem{
     
     private static int id = 1;

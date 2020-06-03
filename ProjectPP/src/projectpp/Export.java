@@ -13,22 +13,11 @@ import shippingorder.IShippingOrder;
 
 /**
  *
- * @author Paulo Filipe Ferreira Brito
- * Nr: 8160279
- * Turma 3
- * @author Hugo Maia Alves
- * Nr: 8160521
- * Turma: 2
+ * @author Paulo
  */
-
 public class Export implements IExporter{
 
-    /**
-     *
-     * @param iso do tipo IShippingOrder
-     * @throws IOException excepção default
-     * Método para passar a info de order para json
-     */
+  
     @Override
     public void export(IShippingOrder iso) throws IOException {
 
